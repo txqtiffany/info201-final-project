@@ -1,0 +1,188 @@
+---
+title: "Midpoint Delieverable - Learning Chinese"
+author: "Language Lovers Team"
+output: html_document
+---
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+# Sources
+source("scripts/summary-table.R")
+source("scripts/chart1.R")
+source("scripts/chart2.R")
+source("scripts/chart3.R")
+
+# Load the 'knitr' library
+library(dplyr)
+library(htmltools)
+library(knitr)
+
+# Dataset
+data <- read.csv("data/MLA_Language_Enrollment_Database.csv",
+  stringsAsFactors = FALSE)
+```
+
+## Introduction
+
+Given China's increasingly important role on the global stage, 
+more and more Americans are considering learning Chinese
+as a second language. As a group, we were interested in 
+examining how this trend has grown over the past few decades,
+and what conclusions can be drawn from its growth.
+
+We made our conclusions based on data gathered by a series of 25 surveys
+conducted by the MLA (Modern Language Association) between 1958 and 2016. 
+
+These surveys collected detailed enrollment information on foriegn languages
+from colleges across the US. The data is extensive, containing 208,020
+observations and 24 features. The collection of the data was primarily
+funded by the United States Department of Education, with additional funding
+from several other institutions.
+
+After reviewing the data, we had three main questions:
+
+1) Where in the US are students studying Chinese?
+2) How popular of a language is Chinese compared to other foriegn
+languages currently? 
+3) How does the growth of enrollment in Chinese compare to other
+foreign languages? 
+
+In the following sections, we provide charts to answer the above questions, 
+as well as summarize the important points of the data in a table.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+library(dplyr)
+source('scripts/summary.R')
+```
+
+```{r, echo=FALSE}
+sum_info <- get_summary_info(data)
+all_learners_total <- sum_info$all_learners_total
+all_learners_total_2016 <- sum_info$all_learners_total_2016
+chinese_learners_total <- sum_info$chinese_learners_total
+chinese_learners_total_2016 <- sum_info$chinese_learners_total_2016
+chinese_all_percentage_2016 <- sum_info$chinese_all_percentage_2016
+chinese_all_percentage <- sum_info$chinese_all_percentage
+cali_chinese_percent_2016 <- sum_info$cali_chinese_percent_2016
+cali_chinese_percent <- sum_info$cali_chinese_percent
+school_chinese_2016 <- sum_info$school_chinese_2016
+school_chinese <- sum_info$school_chinese
+school_chinese_unique_2016 <- sum_info$school_chinese_unique_2016
+school_chinese_unique <- sum_info$school_chinese_unique_2016
+```
+
+## Summary Information
+
+For our dataset, the dataset we used gave us informations about what second
+languages different universities are teaching in certain terms, years, and the
+groups of students studying these languages
+(e.g. undergraduates and graduates).
+There is a total of `r all_learners_total` counts of students who have been
+learning a second language from 1958 to 2016 and `r all_learners_total_2016`
+students in 2016.
+From all years, there is a total of `r chinese_learners_total` counts of
+students who learned Chinese and `r chinese_learners_total_2016` students who
+enrolled in a Chinese class in 2016.
+
+In terms of percentages, **`r chinese_all_percentage`%** of people learning a
+language was learning Chinese and in 2016, the percentage is
+**`r chinese_all_percentage_2016`%** .
+Out of the total number of students learning Chinese,
+**`r cali_chinese_percent`%** have been from California and in 2016 alone,
+**`r cali_chinese_percent_2016`%** of students studied Chinese in California
+
+The school with the most students who learned Chinese in 2016 is
+**`r school_chinese_2016`** and from all terms, however, the school who had has
+the most number of students learning Chinese is **`r school_chinese`**.
+
+From the data, we can predict that some historic events, such as the gold rush,
+has lead to not only the increase in Chinese immagrants, but also an increase
+of the number of Chinese learners in those areas.
+
+## Summary table
+This table shows the total number of language learners in U.S. Colleges by 
+states in 2016, and the number and percentages of Chinese learners. It is 
+arranged by descending order of the percentage of Chinese learners to show 
+the relative popularity of Chinese to language learners studying in U.S. 
+Colleges.
+
+```{r summary table, echo = F}
+kable(summary_info(data), col.names = c("State", "Total Chinese Learners",
+                                        "Total Language Learners",
+                                        "Percent Chinese Learners"))
+```
+
+
+From the table, we can see Vermont has the largest percentage of Chinese 
+learners, but California has the greatest number of Chinese learners. 
+Therefore, we need to consider both the percentage and the actual number 
+when determining the popularity of Chinese among language learners in U.S.
+Colleges.
+
+## Charts
+
+### Map
+Below includes multiple maps of the numbers of Chinese learners in higher 
+institution across the United States. This chart intends to show the 
+relationship between the **popularity of Chinese learning in different states**
+in 2016. 
+
+From the first graph of the full United States, we can see that **California**
+has the most amount of Chinese learners, much higher than all other states.
+
+```{r chart1, echo = F}
+chart1(data)[[1]]
+chart1(data)[[2]]
+chart1(data)[[3]]
+chart1(data)[[4]]
+chart1(data)[[5]]
+chart1(data)[[6]]
+chart1(data)[[7]]
+```
+
+
+The following charts intend to show some more detailed comparison of numbers
+by breaking them down into **regions** - West, Northwest, Midwest, Northeast,
+South and Pacific. This intends to point out “Which states stands out the most
+in each region?”. Among them, we can see how states like **WA, OH, NY, TX, HI**
+stood out in each of thier regions.
+
+### Bar Chart
+This bar chart shows the **popularity of all second languages learnt** by U.S.
+college 
+students in 2016. Chinese Language is the seventh most popular language among 
+all of them and the second most popular Asian language. However, there is 
+still a big gap between the number of Chinese learners and that of the most 
+popular language, Spanish, as the number of Spanish learners is more than 
+800,000, but that of Chinese learners is less than 100,000. 
+
+```{r chart2, echo = F}
+bar_chart(data)
+```
+
+Among the top 8 languages, only 2 of them are Asian languages. We can conclude 
+that in general, Asian languages are less attractive to U.S. students.
+
+### Line Graph
+The graphs below represent the **change in popularity of Chinese** at US
+colleges over the past few decades, as well as the change in popularity
+of chinese relative to other popular languages.
+
+```{r chart3, echo = F}
+chart3(data)[[1]]
+chart3(data)[[2]]
+```
+
+From the above charts it is clear that while Chinese has increased in
+popularity
+considerably, it still lags far behind other languages. Though Chinese had
+nearly 20,000 students enrolled in 1990, on the second chart this number
+appears to be almost zero due to the vast difference in scale. This is likely
+due, in part, to the explosive growth of Spanish as a second language. The
+first graph also shows that there has been a slight drop in Chinese enrollment
+over the past several years. 
